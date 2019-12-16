@@ -1,4 +1,5 @@
 import React from "react";
+import {API_URL} from '../../api/api';
 
 const GalleryItem = (props) => {
   const {image, title, commentsNumber, link} = props;
@@ -8,7 +9,7 @@ const GalleryItem = (props) => {
       <div className='gallery-item__img'><img src={image} alt={title}/></div>
       <h3>{title}</h3>
       <p>Number of comments: <span>{commentsNumber}</span></p>
-      <a href={link}>Link</a>
+      <a href={`${API_URL}${link}`} target="_blank">Link</a>
     </div>
   )
 };

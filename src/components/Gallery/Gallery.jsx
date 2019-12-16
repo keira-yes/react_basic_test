@@ -1,6 +1,7 @@
 import React from "react";
 import GalleryItem from './GalleryItem';
-import Loader from "../Loader";
+import Loader from '../Loader';
+import {API_URL} from '../../api/api';
 
 export default class Gallery extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Gallery extends React.Component {
   }
 
   getGalleryItems = () => {
-    const link = 'https://www.reddit.com/r/reactjs.json?limit=100';
+    const link = `${API_URL}/r/reactjs.json?limit=100`;
     fetch(link)
       .then(response => {
         return response.json()
