@@ -37,9 +37,14 @@ export default class Gallery extends React.Component {
     const name = e.target.name;
     const value = e.target.value;
     const updatedGallery = [...this.state.gallery];
-    this.setState({
+    this.setState(prevState => ({
       [name]: value
-    })
+    }));
+    if (this.state.sortBy === 'comments_desc') {
+      console.log('Выбрано по убыванию!')
+    } else {
+      console.log('Выбрано по возрастанию!')
+    }
   };
 
   render() {
