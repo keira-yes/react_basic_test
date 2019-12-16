@@ -1,12 +1,14 @@
 import React from "react";
 import GalleryItem from './GalleryItem';
+import Loader from "../Loader";
 
 export default class Gallery extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      gallery: []
+      gallery: [],
+      isLoading: true
     }
   }
 
@@ -17,7 +19,11 @@ export default class Gallery extends React.Component {
         return response.json()
       })
       .then(data => {
-        console.log(data.data);
+        this.setState({
+          gallery: data.data.children,
+          isLoading: false
+        });
+        console.log(this.state.gallery)
       })
   };
 
@@ -26,9 +32,26 @@ export default class Gallery extends React.Component {
   }
 
   render() {
-    return(
+    const {gallery, isLoading} = this.state;
+
+    return (
       <div className='gallery'>
-        <GalleryItem />
+        {isLoading ? <Loader /> :
+          <>
+            {gallery.map(item => {
+              const gallery_item = item.data;
+              return (
+                <GalleryItem
+                  key={gallery_item.id}
+                  image={gallery_item.thumbnail}
+                  title={gallery_item.title}
+                  commentsNumber={gallery_item.num_comments}
+                  link={gallery_item.permalink}
+                />
+              )
+            })}
+          </>
+        }
       </div>
     )
   }

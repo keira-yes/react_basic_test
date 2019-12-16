@@ -1,12 +1,14 @@
 import React from "react";
 
-const GalleryItem = () => {
+const GalleryItem = (props) => {
+  const {image, title, commentsNumber, link} = props;
+
   return (
     <div className='gallery-item'>
-      <img src="#" alt="Gallery image"/>
-      <h3>Title</h3>
-      <p>Number of comments: <span>1474</span></p>
-      <a href="#">Link</a>
+      <div className='gallery-item__img'><img src={image} alt={title}/></div>
+      <h3>{title}</h3>
+      <p>Number of comments: <span>{commentsNumber}</span></p>
+      <a href={link}>Link</a>
     </div>
   )
 };
