@@ -1,7 +1,6 @@
 import React from "react";
 import GalleryItem from './GalleryItem';
 import Loader from '../Loader';
-import {API_URL} from '../../api/api';
 import Filters from "../Filters/Filters";
 
 export default class Gallery extends React.Component {
@@ -16,14 +15,13 @@ export default class Gallery extends React.Component {
   }
 
   getGalleryItems = () => {
-    const link = `${API_URL}/r/reactjs.json?limit=100`;
-    fetch(link)
+    fetch("https://www.reddit.com/r/reactjs.json?limit=100")
       .then(response => {
         return response.json()
       })
-      .then(data => {
+      .then(({ data }) => {
         this.setState({
-          gallery: data.data.children,
+          gallery: data.children,
           isLoading: false
         });
       })
