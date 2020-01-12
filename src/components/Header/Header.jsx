@@ -1,9 +1,7 @@
 import React from "react";
 
-const Header = () => {
+export const Header = () => {
   return (
     <h1>Top commented.</h1>
   )
 };
-
-export default Header;
