@@ -1,9 +1,7 @@
-import React from "react";
+import React, {memo} from "react";
 import no_image from '../../img/no_image.png';
 
-export const GalleryItem = (props) => {
-  const {data} = props;
-
+export const GalleryItem = memo(({data}) => {
   return (
     <div className='gallery-item'>
       <div className='gallery-item__img'>
@@ -14,4 +12,4 @@ export const GalleryItem = (props) => {
       <a href={`https://www.reddit.com/${data.permalink}`} target="_blank" rel="noopener noreferrer">Link</a>
     </div>
   )
-};
+});
