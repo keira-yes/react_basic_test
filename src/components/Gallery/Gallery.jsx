@@ -10,6 +10,7 @@ export class Gallery extends React.Component {
     this.state = {
       gallery: [],
       isLoading: true,
+      enableAutoRefresh: false
     }
   }
 
@@ -30,17 +31,33 @@ export class Gallery extends React.Component {
     this.getGalleryItems();
   }
 
+  updateAutoRefresh = () => {
+    this.setState((prevState) => ({
+        enableAutoRefresh: !prevState.enableAutoRefresh
+      }),
+      () => {
+        if(this.state.enableAutoRefresh) {
+          this.autorefresh = setInterval(this.getGalleryItems, 3000);
+        } else {
+          clearInterval(this.autorefresh);
+        }
+      }
+    )
+  };
+
   render() {
-    const {gallery, isLoading} = this.state;
+    const {gallery, isLoading, enableAutoRefresh} = this.state;
     const itemsSortByComments = gallery.sort((a, b) => b.data.num_comments - a.data.num_comments);
 
     return (
       <>
+        <button type="button" onClick={this.updateAutoRefresh}>
+          {enableAutoRefresh ? "Stop" : "Start"} auto-refresh
+        </button>
         <div className='gallery'>
           {isLoading ? <Loader /> :
             <>
               {itemsSortByComments.map(item => {
-                const gallery_item = item.data;
                 return (
                   <GalleryItem
                     key={item.data.id}
