@@ -1,7 +1,6 @@
 import React from "react";
 import {GalleryItem} from './GalleryItem';
 import {Loader} from '../Loader';
-import Filters from "../Filters/Filters";
 
 export class Gallery extends React.Component {
   constructor(props) {
@@ -10,7 +9,9 @@ export class Gallery extends React.Component {
     this.state = {
       gallery: [],
       isLoading: true,
-      enableAutoRefresh: false
+      enableAutoRefresh: false,
+      minComments: 0,
+      // maxComments: 0
     }
   }
 
@@ -45,19 +46,40 @@ export class Gallery extends React.Component {
     )
   };
 
+  updateMinComments = (e) => {
+    this.setState({
+      minComments: Number(e.target.value)
+    })
+  };
+
+  getItemsByComments = (gallery, minComments) => {
+    return gallery
+      .filter(item => item.data.num_comments >= minComments)
+      .sort((a, b) => b.data.num_comments - a.data.num_comments);
+  };
+
   render() {
-    const {gallery, isLoading, enableAutoRefresh} = this.state;
-    const itemsSortByComments = gallery.sort((a, b) => b.data.num_comments - a.data.num_comments);
+    const {gallery, isLoading, enableAutoRefresh, minComments} = this.state;
+    const itemsByComments = this.getItemsByComments(gallery, minComments);
 
     return (
       <>
         <button type="button" onClick={this.updateAutoRefresh}>
           {enableAutoRefresh ? "Stop" : "Start"} auto-refresh
         </button>
+        <p>Current filter: {minComments}</p>
+        <input
+          type="range"
+          value={minComments}
+          min={0}
+          max={200}
+          onChange={this.updateMinComments}
+        />
         <div className='gallery'>
           {isLoading ? <Loader /> :
+            itemsByComments.length > 0 ?
             <>
-              {itemsSortByComments.map(item => {
+              {itemsByComments.map(item => {
                 return (
                   <GalleryItem
                     key={item.data.id}
@@ -65,10 +87,10 @@ export class Gallery extends React.Component {
                   />
                 )
               })}
+            </> : <p>No results found matghing your criteria</p>
+            }
+            </div>
             </>
+            )
           }
-        </div>
-      </>
-    )
-  }
-}
+          }

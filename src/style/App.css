@@ -55,6 +55,8 @@ h1 {
     object-fit: cover;
 }
 
-.filters {
-    margin-bottom: 30px;
+input[type=range] {
+    display: block;
+    width: 500px;
+    margin-top: 20px;
 }
